@@ -24,16 +24,16 @@ class TrendAnalyzer:
             timeframe: Time range for trend analysis (default: last 3 months)
             max_keywords: Maximum number of keywords to process (default: 15)
         """
-        if not SERPAPI_KEY:
-            raise ValueError(
-                "SerpAPI key is required. Set SERPAPI_KEY in your .env file.\n"
-                "Get your key at: https://serpapi.com/manage-api-key"
-            )
-        
         self.api_key = SERPAPI_KEY
+        self.has_api_key = bool(SERPAPI_KEY)
         self.geo = geo
         self.timeframe = timeframe
         self.max_keywords = max_keywords
+        
+        if not self.has_api_key:
+            print("Warning: No SerpAPI key found. Running in demo mode with sample data.")
+            print("   To use real Google Trends data, add SERPAPI_KEY to your .env file")
+            print("   Get your key at: https://serpapi.com/manage-api-key")
         
     def fetch_trend_data(self, keywords: List[str], max_keywords: Optional[int] = None) -> Dict[str, pd.DataFrame]:
         """
@@ -46,6 +46,10 @@ class TrendAnalyzer:
         Returns:
             Dictionary mapping keywords to their trend data
         """
+        # If no API key, return empty dict (will use sample data in analyze_trends)
+        if not self.has_api_key:
+            return {}
+        
         trend_data = {}
         max_kw = max_keywords or self.max_keywords
         
@@ -123,6 +127,9 @@ class TrendAnalyzer:
         Returns:
             Dictionary with rising and top related queries
         """
+        if not self.has_api_key:
+            return {"rising": [], "top": []}
+        
         try:
             params = {
                 "engine": "google_trends",
@@ -217,6 +224,39 @@ class TrendAnalyzer:
         
         print(f"Fetching trend data for {len(keywords_to_process)} keywords (out of {len(keywords)} total)...")
         trend_data = self.fetch_trend_data(keywords, max_keywords=max_kw)
+        
+        # If no API key or no data, generate sample data
+        if not trend_data:
+            print("   Using sample data (demo mode - add SERPAPI_KEY for real data)")
+            results = []
+            for keyword in keywords_to_process:
+                # Generate realistic sample trend data
+                base_strength = random.uniform(40, 80)
+                velocity = random.uniform(-10, 15)
+                confidence = abs(velocity) * 0.6 + base_strength * 0.4
+                
+                if velocity > 5:
+                    status = "Rising"
+                elif velocity < -5:
+                    status = "Declining"
+                elif base_strength > 70:
+                    status = "Peaking"
+                else:
+                    status = "Stable"
+                
+                results.append({
+                    "keyword": keyword,
+                    "velocity": velocity,
+                    "strength": base_strength,
+                    "status": status,
+                    "confidence": confidence,
+                    "current_value": base_strength,
+                    "peak_value": base_strength * 1.2
+                })
+            
+            # Rank by confidence (descending)
+            results.sort(key=lambda x: x["confidence"], reverse=True)
+            return results
         
         results = []
         

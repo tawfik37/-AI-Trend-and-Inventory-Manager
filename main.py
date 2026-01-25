@@ -34,7 +34,7 @@ def get_shoe_keywords(inventory_items: list = None, use_inventory: bool = True, 
                 inventory_manager = InventoryManager()
                 items = inventory_manager.get_all_inventory()
             except Exception as e:
-                console.print(f"[yellow]⚠ Warning: Could not load keywords from inventory: {e}[/yellow]")
+                console.print(f"[yellow]Warning: Could not load keywords from inventory: {e}[/yellow]")
                 console.print("[yellow]   Using default keyword list instead...[/yellow]")
                 items = None
         
@@ -83,23 +83,23 @@ def get_upcoming_holidays() -> list:
 def display_header():
     """Display beautiful header."""
     header_text = """
-    ╔═══════════════════════════════════════════════════════════╗
-    ║                                                           ║
-    ║          AI TREND & INVENTORY MANAGER (ATIM)             ║
-    ║                                                           ║
-    ║     Intelligent Inventory Optimization with AI           ║
-    ║                                                           ║
-    ╚═══════════════════════════════════════════════════════════╝
+    ============================================================
+    
+          AI TREND & INVENTORY MANAGER (ATIM)
+    
+          Intelligent Inventory Optimization with AI
+    
+    ============================================================
     """
     console.print(header_text, style="bold cyan")
-    console.print(f"📅 Analysis Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", style="dim")
-    console.print(f"🌡️  Current Season: {CURRENT_SEASON}", style="dim")
+    console.print(f"Analysis Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", style="dim")
+    console.print(f"Current Season: {CURRENT_SEASON}", style="dim")
     console.print()
 
 
 def display_inventory_summary(inventory_summary):
     """Display inventory summary in a beautiful table."""
-    table = Table(title="📦 Inventory Overview", box=box.ROUNDED, show_header=True, header_style="bold magenta")
+    table = Table(title="Inventory Overview", box=box.ROUNDED, show_header=True, header_style="bold magenta")
     
     table.add_column("Metric", style="cyan", no_wrap=True)
     table.add_column("Value", justify="right", style="green")
@@ -115,11 +115,11 @@ def display_inventory_summary(inventory_summary):
 def display_trending_products(trending_products):
     """Display trending products in a beautiful table."""
     if not trending_products:
-        console.print("[yellow]⚠ No trending products found[/yellow]")
+        console.print("[yellow]No trending products found[/yellow]")
         return
     
     table = Table(
-        title=f"📈 Top {min(10, len(trending_products))} Trending Products",
+        title=f"Top {min(10, len(trending_products))} Trending Products",
         box=box.ROUNDED,
         show_header=True,
         header_style="bold cyan"
@@ -136,13 +136,13 @@ def display_trending_products(trending_products):
         # Color-code status
         status = trend['status']
         if status == "Rising":
-            status_display = "[green]↗ Rising[/green]"
+            status_display = "[green]Rising[/green]"
         elif status == "Declining":
-            status_display = "[red]↘ Declining[/red]"
+            status_display = "[red]Declining[/red]"
         elif status == "Peaking":
-            status_display = "[yellow]⬆ Peaking[/yellow]"
+            status_display = "[yellow]Peaking[/yellow]"
         else:
-            status_display = "[dim]→ Stable[/dim]"
+            status_display = "[dim]Stable[/dim]"
         
         # Color-code velocity
         velocity = trend['velocity']
@@ -173,7 +173,7 @@ def display_recommendations(recommendations):
     
     panel = Panel(
         md,
-        title="🤖 AI-Powered Inventory Recommendations",
+        title="AI-Powered Inventory Recommendations",
         border_style="green",
         box=box.DOUBLE,
         padding=(1, 2)
@@ -186,11 +186,11 @@ def display_recommendations(recommendations):
 def display_low_stock_alerts(low_stock_items):
     """Display low stock alerts."""
     if not low_stock_items:
-        console.print("✅ [green]All items are above reorder point[/green]\n")
+        console.print("[green]All items are above reorder point[/green]\n")
         return
     
     table = Table(
-        title="⚠️  Low Stock Alerts",
+        title="Low Stock Alerts",
         box=box.ROUNDED,
         show_header=True,
         header_style="bold yellow"
@@ -202,7 +202,7 @@ def display_low_stock_alerts(low_stock_items):
     table.add_column("Action Needed", style="bold red")
     
     for item in low_stock_items:
-        urgency = "🔴 URGENT" if item.current_stock < item.reorder_point * 0.5 else "🟡 REORDER"
+        urgency = "[red]URGENT[/red]" if item.current_stock < item.reorder_point * 0.5 else "[yellow]REORDER[/yellow]"
         table.add_row(
             item.product_name,
             str(item.current_stock),
@@ -218,33 +218,34 @@ def main():
     """Enhanced main application with beautiful output."""
     display_header()
     
-    # Initialize components with progress indicator
-    with Progress(
-        SpinnerColumn(),
-        TextColumn("[progress.description]{task.description}"),
-        console=console,
-    ) as progress:
-        
-        task1 = progress.add_task("[cyan]Initializing Trend Analyzer...", total=None)
+    # Initialize components
+    task1_desc = "Initializing Trend Analyzer..."
+    console.print(f"[cyan]{task1_desc}[/cyan]")
+    try:
         trend_analyzer = TrendAnalyzer()
-        progress.update(task1, completed=True)
-        
-        task2 = progress.add_task("[cyan]Loading Inventory Data...", total=None)
-        inventory_manager = InventoryManager()
-        inventory_summary = inventory_manager.get_inventory_summary()
-        inventory_items = inventory_manager.get_all_inventory()
-        progress.update(task2, completed=True)
-        
-        task3 = progress.add_task("[cyan]Initializing AI Agent...", total=None)
-        try:
-            inventory_agent = InventoryAgent()
-            progress.update(task3, completed=True)
-        except ValueError as e:
-            progress.stop()
-            console.print(f"\n[bold red]❌ ERROR:[/bold red] {e}")
-            console.print("\n[yellow]Please create a .env file with your GEMINI_API_KEY:[/yellow]")
-            console.print("[dim]GEMINI_API_KEY=your_api_key_here[/dim]")
-            sys.exit(1)
+    except ValueError as e:
+        console.print(f"\n[bold red]Configuration Error:[/bold red] {e}")
+        console.print("\n[yellow]Note:[/yellow] SerpAPI key is required for real trend data.")
+        console.print("[dim]The system will use sample data instead.[/dim]")
+        console.print("\nTo get real Google Trends data, add SERPAPI_KEY to your .env file")
+        console.print("[dim]Get your key at: https://serpapi.com/manage-api-key[/dim]")
+        sys.exit(1)
+    
+    task2_desc = "Loading Inventory Data..."
+    console.print(f"[cyan]{task2_desc}[/cyan]")
+    inventory_manager = InventoryManager()
+    inventory_summary = inventory_manager.get_inventory_summary()
+    inventory_items = inventory_manager.get_all_inventory()
+    
+    task3_desc = "Initializing AI Agent..."
+    console.print(f"[cyan]{task3_desc}[/cyan]")
+    try:
+        inventory_agent = InventoryAgent()
+    except ValueError as e:
+        console.print(f"\n[bold red]ERROR:[/bold red] {e}")
+        console.print("\n[yellow]Please create a .env file with your GEMINI_API_KEY:[/yellow]")
+        console.print("[dim]GEMINI_API_KEY=your_api_key_here[/dim]")
+        sys.exit(1)
     
     console.print()
     
@@ -253,18 +254,18 @@ def main():
     
     # Component A: Trend Analysis
     console.print(Panel.fit(
-        "🔍 Analyzing Google Trends Data",
+        "Analyzing Google Trends Data",
         border_style="cyan",
         box=box.DOUBLE
     ))
     console.print()
     
     keywords = get_shoe_keywords(inventory_items=inventory_items, use_inventory=True)
-    console.print(f"[dim]→ Total keywords available: {len(keywords)}[/dim]")
+    console.print(f"[dim]> Total keywords available: {len(keywords)}[/dim]")
     
     max_keywords_to_analyze = 15
     if len(keywords) > max_keywords_to_analyze:
-        console.print(f"[dim]→ Analyzing first {max_keywords_to_analyze} keywords[/dim]")
+        console.print(f"[dim]> Analyzing first {max_keywords_to_analyze} keywords[/dim]")
     
     console.print()
     
@@ -280,7 +281,7 @@ def main():
     
     # Fallback to sample data if needed
     if not trending_products:
-        console.print("[yellow]⚠ No trend data retrieved. Using sample data...[/yellow]\n")
+        console.print("[yellow]Warning: No trend data retrieved. Using sample data...[/yellow]\n")
         import random
         sample_keywords = keywords[:5]
         trending_products = []
@@ -314,16 +315,16 @@ def main():
     
     # Component B: AI Recommendations
     console.print(Panel.fit(
-        "🤖 Generating AI-Powered Recommendations",
+        "Generating AI-Powered Recommendations",
         border_style="green",
         box=box.DOUBLE
     ))
     console.print()
     
     upcoming_holidays = get_upcoming_holidays()
-    console.print(f"[dim]→ Analyzing {len(trending_products)} trends[/dim]")
-    console.print(f"[dim]→ Season: {CURRENT_SEASON}[/dim]")
-    console.print(f"[dim]→ Events: {', '.join(upcoming_holidays)}[/dim]")
+    console.print(f"[dim]> Analyzing {len(trending_products)} trends[/dim]")
+    console.print(f"[dim]> Season: {CURRENT_SEASON}[/dim]")
+    console.print(f"[dim]> Events: {', '.join(upcoming_holidays)}[/dim]")
     console.print()
     
     with console.status("[bold green]AI is analyzing data...", spinner="dots"):
@@ -348,7 +349,7 @@ def main():
     
     # Footer
     console.print(Panel.fit(
-        "✅ Analysis Complete\n\n"
+        "Analysis Complete\n\n"
         "Next Steps:\n"
         "  1. Review recommendations above\n"
         "  2. Adjust reorder quantities\n"
