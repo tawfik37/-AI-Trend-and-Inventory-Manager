@@ -13,15 +13,26 @@ pip install -r requirements.txt
 Create a `.env` file in the project root with the following content:
 
 ```
+# Required
 GEMINI_API_KEY=your_gemini_api_key_here
 GEMINI_MODEL=gemini-2.0-flash
+
+# Optional but recommended (for real Google Trends data)
+SERPAPI_KEY=your_serpapi_key_here
 ```
 
 **To get a Google Gemini API key:**
-1. Go to https://makersuite.google.com/app/apikey or https://aistudio.google.com/app/apikey
+1. Go to https://aistudio.google.com/app/apikey
 2. Sign in with your Google account
 3. Click "Create API Key" or "Get API Key"
 4. Copy the key and paste it in your `.env` file
+
+**To get a SerpAPI key (Optional):**
+1. Go to https://serpapi.com/users/sign_up
+2. Sign up for a free account (100 free searches/month)
+3. Go to your dashboard and copy your API key
+4. Paste it in your `.env` file
+5. **Note:** If you don't provide a SerpAPI key, the system will use sample trend data instead of real Google Trends data
 
 ### 3. Run the Application
 
@@ -77,8 +88,9 @@ This will generate recommendations using sample trend data.
 
 ## Notes
 
-- Google Trends API is free but has rate limits
-- Google Gemini API has a free tier with generous usage limits (check Google AI Studio for current limits)
+- Google Gemini API is required for AI recommendations (free tier available)
+- SerpAPI is optional - provides real Google Trends data (100 free searches/month)
+- If SerpAPI key is not provided, the system uses sample trend data
 - The system uses sample inventory data by default
 - You can modify all components to fit your specific needs
 
