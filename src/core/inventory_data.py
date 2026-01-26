@@ -8,6 +8,10 @@ from datetime import datetime
 import json
 import os
 import pandas as pd
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+
 from config import DEFAULT_REORDER_POINT, DEFAULT_LEAD_TIME_DAYS
 
 
@@ -28,13 +32,17 @@ class InventoryItem:
 class InventoryManager:
     """Manages inventory data for the retailer."""
     
-    def __init__(self, csv_file: str = "store_inventory.csv"):
+    def __init__(self, csv_file: str = None):
         """
         Initialize inventory manager by loading data from CSV file.
-        
+
         Args:
             csv_file: Path to the CSV file containing inventory data
         """
+        if csv_file is None:
+            # Default to data/store_inventory.csv relative to project root
+            project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+            csv_file = os.path.join(project_root, "data", "store_inventory.csv")
         self.csv_file = csv_file
         self.inventory = self._load_inventory_from_csv()
     

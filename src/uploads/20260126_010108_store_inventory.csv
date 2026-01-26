@@ -1,0 +1,60 @@
+Shoe Description,Number of Items Left,Category,Reorder Point,Reorder Quantity,Lead Time (days),Warehouse Location,Cost Per Unit,Selling Price
+Chunky Sneakers,150,Casual,100,200,10,Zone A,45.00,89.99
+Waterproof Boots,80,Outdoor,50,150,21,Zone B,65.00,129.99
+Espadrilles,200,Summer,120,180,10,Zone C,25.00,49.99
+Ankle Boots,120,Fall/Winter,80,160,16,Zone B,55.00,109.99
+Retro Runners,90,Athletic,60,150,12,Zone A,50.00,99.99
+Platform Sandals,250,Summer,100,200,10,Zone C,30.00,59.99
+Minimalist Running Shoes,50,Athletic,50,100,12,Zone A,40.00,79.99
+Suede Boots,100,Fall/Winter,70,140,16,Zone B,60.00,119.99
+Canvas Shoes,180,Casual,100,200,10,Zone A,20.00,39.99
+Running Sneakers,140,Athletic,80,160,12,Zone A,45.00,89.99
+High Top Sneakers,95,Casual,60,150,10,Zone A,42.00,84.99
+Loafers,110,Formal,70,140,14,Zone B,55.00,109.99
+Dress Shoes,75,Formal,50,120,14,Zone B,75.00,149.99
+Hiking Boots,85,Outdoor,55,130,21,Zone B,70.00,139.99
+Slip On Shoes,160,Casual,100,200,10,Zone A,28.00,55.99
+Winter Boots,70,Outdoor,45,120,21,Zone B,68.00,135.99
+Cross Training Shoes,145,Athletic,90,180,12,Zone A,48.00,95.99
+Athletic Sneakers,125,Athletic,80,160,12,Zone A,46.00,91.99
+Casual Sneakers,135,Casual,85,170,10,Zone A,35.00,69.99
+Formal Dress Shoes,55,Formal,40,100,14,Zone B,80.00,159.99
+Basketball Shoes,110,Athletic,70,140,14,Zone A,52.00,104.99
+Tennis Shoes,95,Athletic,60,130,12,Zone A,44.00,87.99
+Walking Shoes,130,Athletic,85,170,12,Zone A,38.00,75.99
+Climbing Shoes,28,Outdoor,30,80,21,Zone B,85.00,169.99
+Work Boots,65,Outdoor,45,110,21,Zone B,72.00,143.99
+Chelsea Boots,88,Fall/Winter,60,140,16,Zone B,58.00,115.99
+Oxford Shoes,72,Formal,50,120,14,Zone B,78.00,155.99
+Boat Shoes,105,Casual,70,150,10,Zone A,32.00,63.99
+Flip Flops,220,Summer,130,220,8,Zone C,15.00,29.99
+Wedge Sandals,175,Summer,110,200,10,Zone C,35.00,69.99
+Moccasins,92,Casual,60,140,10,Zone A,40.00,79.99
+Slippers,185,Casual,120,220,8,Zone A,18.00,35.99
+Ballet Flats,115,Casual,75,160,10,Zone A,30.00,59.99
+Mary Janes,68,Formal,45,110,14,Zone B,65.00,129.99
+Ankle Strap Heels,22,Formal,30,90,14,Zone B,85.00,169.99
+Combat Boots,78,Outdoor,50,130,21,Zone B,75.00,149.99
+Trail Running Shoes,102,Athletic,65,150,12,Zone A,54.00,107.99
+Soccer Cleats,58,Athletic,40,100,14,Zone A,49.00,97.99
+Baseball Cleats,15,Athletic,30,80,14,Zone A,47.00,93.99
+Golf Shoes,20,Formal,25,70,16,Zone B,95.00,189.99
+Yoga Shoes,88,Athletic,60,140,10,Zone A,36.00,71.99
+Pilates Shoes,62,Athletic,40,100,10,Zone A,34.00,67.99
+Cycling Shoes,54,Athletic,35,90,14,Zone A,78.00,155.99
+Skateboarding Shoes,118,Casual,75,160,10,Zone A,43.00,85.99
+Vans Style Sneakers,165,Casual,110,200,10,Zone A,37.00,73.99
+Converse Style Sneakers,142,Casual,90,180,10,Zone A,35.00,69.99
+Timberland Style Boots,76,Outdoor,50,130,21,Zone B,88.00,175.99
+Ugg Style Boots,91,Fall/Winter,60,140,16,Zone B,95.00,189.99
+Doc Martens Style Boots,84,Fall/Winter,55,135,16,Zone B,82.00,163.99
+Hunter Style Boots,59,Outdoor,40,100,21,Zone B,92.00,183.99
+Wingtips,51,Formal,35,90,14,Zone B,88.00,175.99
+Monk Straps,30,Formal,30,80,14,Zone B,90.00,179.99
+Brogues,67,Formal,45,110,14,Zone B,82.00,163.99
+Derby Shoes,73,Formal,50,120,14,Zone B,76.00,151.99
+Gladiator Sandals,128,Summer,85,170,10,Zone C,28.00,55.99
+Espadrille Wedges,156,Summer,100,200,10,Zone C,32.00,63.99
+Slide Sandals,198,Summer,130,220,8,Zone C,22.00,43.99
+Water Shoes,134,Summer,85,170,10,Zone C,26.00,51.99
+Beach Sandals,211,Summer,140,240,8,Zone C,19.00,37.99

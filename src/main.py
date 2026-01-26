@@ -4,10 +4,10 @@ Beautiful terminal output with colors, tables, and progress bars
 """
 import sys
 from datetime import datetime
-from trend_analysis import TrendAnalyzer
-from llm_inventory_agent import InventoryAgent
+from core.trend_analysis import TrendAnalyzer
+from core.llm_inventory_agent import InventoryAgent
 from config import CURRENT_SEASON
-from inventory_data import InventoryManager
+from core.inventory_data import InventoryManager
 
 # Rich terminal library for beautiful output
 from rich.console import Console

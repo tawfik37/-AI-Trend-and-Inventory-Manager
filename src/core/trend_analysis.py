@@ -9,6 +9,10 @@ from serpapi import GoogleSearch
 import time
 from typing import List, Dict, Optional
 import random
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+
 from config import TRENDS_GEO, TRENDS_TIMEFRAME, SERPAPI_KEY
 
 
