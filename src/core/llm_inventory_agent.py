@@ -8,8 +8,12 @@ import time
 from typing import List, Dict
 from datetime import datetime
 import google.generativeai as genai
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+
 from config import GEMINI_API_KEY, GEMINI_MODEL, CURRENT_SEASON
-from inventory_data import InventoryManager
+from core.inventory_data import InventoryManager
 
 
 class InventoryAgent:
