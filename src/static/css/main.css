@@ -1,0 +1,91 @@
+/**
+ * ATIM - Main Stylesheet
+ * A modern, elegant inventory management interface
+ */
+
+/* Base Styles */
+@import url('base/variables.css');
+@import url('base/reset.css');
+@import url('base/typography.css');
+
+/* Layout */
+@import url('layouts/header.css');
+@import url('layouts/main.css');
+
+/* Components */
+@import url('components/buttons.css');
+@import url('components/cards.css');
+@import url('components/forms.css');
+@import url('components/tables.css');
+@import url('components/charts.css');
+@import url('components/toast.css');
+@import url('components/navigation.css');
+@import url('components/progress.css');
+@import url('components/recommendations.css');
+
+/* Utilities */
+@import url('utilities/animations.css');
+@import url('utilities/spacing.css');
+
+/* Global Styles */
+body {
+    background: #f5f7fa;
+    min-height: 100vh;
+    padding: 0;
+    font-family: var(--font-primary);
+    color: var(--color-text);
+}
+
+.container {
+    max-width: 100%;
+    margin: 0;
+    padding: var(--spacing-lg);
+}
+
+/* Glass Container */
+.glass-container {
+    background: white;
+    border-radius: var(--radius-xl);
+    border: 1px solid #e2e8f0;
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-2xl);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-md);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--color-primary), var(--color-secondary));
+    border-radius: var(--radius-md);
+    border: 2px solid var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--color-primary-dark), var(--color-secondary-dark));
+}
+
+/* Selection */
+::selection {
+    background: var(--color-primary);
+    color: white;
+}
+
+/* Focus Styles */
+*:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        padding: var(--spacing-md);
+    }
+}

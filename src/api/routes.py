@@ -63,8 +63,7 @@ def register_routes(app):
 
         except Exception as e:
             return jsonify({
-                'error': str(e),
-                'traceback': traceback.format_exc()
+                'error': str(e)
             }), 500
 
     @app.route('/reports/<filename>')

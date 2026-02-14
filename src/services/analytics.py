@@ -114,7 +114,7 @@ def calculate_analytics(inventory_items, trending_products):
 
     return {
         'category_breakdown': {
-            'categories': list(category_data.keys()),
+            'categories': sorted(category_data.keys()),
             'counts': [category_data[cat]['count'] for cat in sorted(category_data.keys())],
             'total_stock': [category_data[cat]['total_stock'] for cat in sorted(category_data.keys())],
             'total_value': [float(category_data[cat]['total_value']) for cat in sorted(category_data.keys())],
