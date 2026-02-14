@@ -1,0 +1,90 @@
+/**
+ * Recommendations Component
+ */
+
+.recommendations {
+    background: white;
+    padding: var(--spacing-2xl);
+    border-radius: var(--radius-2xl);
+    border: 2px solid #e2e8f0;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.recommendations:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+}
+
+.recommendations h2 {
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-xl);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    border-bottom: 4px solid var(--color-primary);
+    padding-bottom: var(--spacing-md);
+}
+
+.recommendations h3 {
+    color: var(--color-text);
+    margin-top: var(--spacing-2xl);
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    border-left: 5px solid var(--color-primary);
+    padding-left: var(--spacing-md);
+    background: var(--color-bg-secondary);
+    padding-top: var(--spacing-sm);
+    padding-bottom: var(--spacing-sm);
+    border-radius: var(--radius-md);
+}
+
+.recommendations ul {
+    list-style: none;
+    margin: var(--spacing-md) 0;
+}
+
+.recommendations li {
+    margin-bottom: var(--spacing-md);
+    padding-left: var(--spacing-lg);
+    position: relative;
+    line-height: var(--line-height-relaxed);
+}
+
+.recommendations li:before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+.recommendation-item {
+    background: white;
+    border-left: 5px solid var(--color-success);
+    padding: var(--spacing-xl);
+    margin: var(--spacing-lg) 0;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-base);
+}
+
+.recommendation-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.recommendation-item.urgent {
+    border-left-color: var(--color-error);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.recommendation-item.warning {
+    border-left-color: var(--color-warning);
+}
