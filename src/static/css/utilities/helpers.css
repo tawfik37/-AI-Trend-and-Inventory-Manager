@@ -1,0 +1,12 @@
+.hidden { display: none; }
+.active { display: block; }
+
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+.mt-4 { margin-top: var(--space-4); }
+.mt-6 { margin-top: var(--space-6); }
+.mt-8 { margin-top: var(--space-8); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-6 { margin-bottom: var(--space-6); }
+.mb-8 { margin-bottom: var(--space-8); }
