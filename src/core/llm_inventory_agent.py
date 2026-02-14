@@ -92,7 +92,7 @@ class InventoryAgent:
                     full_prompt,
                     generation_config={
                         "temperature": 0.7,
-                        "max_output_tokens": 2048,
+                        "max_output_tokens": 1024,
                     }
                 )
                 
@@ -204,28 +204,23 @@ Total Inventory Value: ${inventory_summary['total_inventory_value']:,.2f}
 - Upcoming Holidays/Events: {', '.join(upcoming_holidays) if upcoming_holidays else 'None specified'}
 
 ## YOUR TASK
-Provide comprehensive, actionable recommendations in the following format:
+Provide brief, actionable recommendations. Keep the response short and concise — use short bullet points, no lengthy explanations. Cover these areas:
 
 ### 1. REORDER SUGGESTIONS
-- Identify products that need immediate reordering based on trending status and current stock levels
-- Specify exact reorder quantities and reasoning
-- Consider lead times and seasonal factors
+- Which products to reorder now, with quantities (2-4 bullets max)
 
 ### 2. WAREHOUSING STRATEGY
 - Recommend warehouse location adjustments for trending items
 - Suggest prioritization of high-velocity items
 - Identify items that should be moved to high-access zones
 
-### 3. RISK ASSESSMENT
-- Flag items at risk of overstocking (declining trends with high inventory)
-- Identify items that may need markdowns or clearance promotions
-- Highlight potential stockout risks
+### 3. RISK ALERTS
+- Overstocking or stockout risks (2-3 bullets max)
 
-### 4. PRIORITY ACTIONS
-- List top 3-5 immediate actions with specific details
-- Include quantitative recommendations where possible (e.g., "Increase reorder by 40%")
+### 4. TOP 3 PRIORITY ACTIONS
+- Immediate actions ranked by impact (one line each)
 
-Be specific, actionable, and prioritize by business impact. Use natural language that a retail manager can immediately act upon.
+Keep the entire response under 500 words. Be direct — no filler text.
 """
         
         return prompt

@@ -2,45 +2,71 @@
  * Main Layout
  */
 
-.main-content {
-    max-width: var(--container-max-width);
+body {
+    background: var(--color-bg);
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Animated Gradient Background */
+.gradient-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.gradient-bg::before,
+.gradient-bg::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.5;
+    animation: float 20s ease-in-out infinite;
+}
+
+.gradient-bg::before {
+    width: 500px;
+    height: 500px;
+    background: var(--gradient-coral-amber);
+    top: -200px;
+    left: -200px;
+}
+
+.gradient-bg::after {
+    width: 600px;
+    height: 600px;
+    background: var(--gradient-teal-purple);
+    bottom: -300px;
+    right: -300px;
+    animation-delay: -10s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(50px, -50px) rotate(120deg); }
+    66% { transform: translate(-50px, 50px) rotate(240deg); }
+}
+
+.container {
+    position: relative;
+    z-index: var(--z-base);
+    max-width: 1600px;
     margin: 0 auto;
+    padding: var(--space-12) var(--space-8);
 }
 
 .section {
-    margin-bottom: var(--spacing-3xl);
+    margin-bottom: var(--space-8);
 }
 
-.section-anchor {
-    scroll-margin-top: 100px;
-}
-
-.section-title {
-    font-size: var(--font-size-3xl);
-    color: var(--color-primary);
-    margin-bottom: var(--spacing-lg);
-    padding-bottom: var(--spacing-md);
-    border-bottom: 3px solid var(--color-primary);
-}
-
-.loading-state {
-    display: none;
-}
-
-.loading-state.active {
-    display: block;
-}
-
-.error-state {
-    background: rgba(239, 68, 68, 0.1);
-    color: var(--color-error);
-    padding: var(--spacing-xl);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--color-error);
-    margin-top: var(--spacing-lg);
-    display: none;
-}
-
-.error-state.active {
-    display: block;
+@media (max-width: 768px) {
+    .container {
+        padding: var(--space-6) var(--space-4);
+    }
 }

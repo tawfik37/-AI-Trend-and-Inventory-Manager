@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATIM - AI Trend & Inventory Manager</title>
-    
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+    <title>ATIM - Inventory Intelligence</title>
     
     <!-- Styles -->
     <link rel="stylesheet" href="/static/css/main.css">
@@ -15,28 +12,27 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
+    <!-- Animated Gradient Background -->
+    <div class="gradient-bg"></div>
+    
     <div class="container">
         <!-- Header -->
-        <header class="app-header">
-            <div class="app-header-icon">🤖</div>
+        <header class="header animate-slideUp">
             <h1>ATIM</h1>
-            <p>AI Trend & Inventory Manager</p>
-            <p style="font-size: var(--font-size-sm); opacity: 0.8; margin-top: var(--spacing-sm);">
-                Upload your inventory CSV and get AI-powered insights
-            </p>
+            <p>Your intelligent inventory companion</p>
         </header>
 
         <!-- Upload Card -->
-        <div class="upload-card animate-slideUp" id="uploadCard">
+        <div class="glass-card animate-slideUp" id="uploadCard" style="animation-delay: 0.1s">
             <form id="uploadForm" enctype="multipart/form-data">
                 <div class="upload-area" id="uploadArea">
                     <div class="upload-icon">📁</div>
-                    <div class="upload-text">Click to upload or drag & drop</div>
-                    <div class="upload-hint">CSV files only • Max 16MB</div>
+                    <div class="upload-text">Drop your CSV here or click to upload</div>
+                    <div class="upload-hint">Supports CSV files up to 16MB</div>
                     <input type="file" id="fileInput" name="file" accept=".csv" style="display: none;">
                 </div>
 
-                <div class="form-grid mt-lg">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-6); margin-top: var(--space-6);">
                     <div class="form-group">
                         <label for="maxKeywords" class="form-label">Max Keywords to Analyze</label>
                         <input type="number" id="maxKeywords" name="max_keywords" value="15" min="1" max="100" class="form-input">
@@ -47,108 +43,98 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-lg mt-lg" id="analyzeBtn" disabled>
-                    Analyze Inventory
-                </button>
+                <div style="text-align: center; margin-top: var(--space-8);">
+                    <button type="submit" class="btn btn-primary btn-lg" id="analyzeBtn" disabled>
+                        🚀 Analyze Inventory
+                    </button>
+                </div>
             </form>
         </div>
 
         <!-- Loading State -->
-        <div class="glass-container loading-state" id="loading">
-            <h2 class="text-center mb-lg">Analyzing Your Inventory...</h2>
+        <div class="loading-state glass-card" id="loading">
+            <h2 style="text-align: center; margin-bottom: var(--space-8);">Analyzing Your Inventory...</h2>
             <div class="progress-container" id="progressContainer"></div>
-            <div class="text-center mt-lg">
+            <div style="text-align: center; margin-top: var(--space-8);">
                 <div class="spinner"></div>
-                <p id="loadingMessage" class="text-muted">Initializing analysis...</p>
+                <p id="loadingMessage" style="margin-top: var(--space-4); color: var(--color-text-light);">Initializing analysis...</p>
             </div>
         </div>
 
         <!-- Error State -->
-        <div class="error-state" id="error"></div>
+        <div class="error-state" id="error" style="display: none;"></div>
 
         <!-- Results -->
         <div class="loading-state" id="results">
-            <!-- Sticky Navigation -->
-            <nav class="sticky-nav" id="stickyNav" style="display: none;">
-                <ul>
-                    <li><a href="#overview" class="active">Overview</a></li>
-                    <li><a href="#trends">Trends</a></li>
-                    <li><a href="#lowstock">Low Stock</a></li>
-                    <li><a href="#recommendations">Recommendations</a></li>
-                </ul>
-            </nav>
+            <!-- Stats Grid -->
+            <div class="stats-grid" id="statsGrid"></div>
 
-            <!-- Overview Section -->
-            <section id="overview" class="section section-anchor">
-                <h2 class="section-title">📊 Analysis Results</h2>
-                <div class="card-grid" id="statsGrid"></div>
-            </section>
-
-            <!-- Trends Section -->
-            <section id="trends" class="section section-anchor">
+            <!-- Charts Section -->
+            <div class="charts-grid">
                 <div class="chart-card">
-                    <div class="chart-card-header">
-                        <h3 class="chart-card-title">Top Trending Products</h3>
-                        <button class="btn btn-sm btn-secondary" onclick="exportTable()">
-                            📥 Export CSV
-                        </button>
-                    </div>
-                    <div class="table-container">
-                        <table class="table" id="trendsTable"></table>
+                    <h3 class="chart-title">Stock Health Overview</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="stockHealthChart"></canvas>
                     </div>
                 </div>
-            </section>
-
-            <!-- Low Stock Section -->
-            <section id="lowstock" class="section section-anchor">
                 <div class="chart-card">
-                    <div class="chart-card-header">
-                        <h3 class="chart-card-title" style="color: var(--color-error);">⚠️ Low Stock Alerts</h3>
-                    </div>
-                    <div class="table-container">
-                        <table class="table" id="lowStockTable"></table>
+                    <h3 class="chart-title">Category Distribution</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="categoryChart"></canvas>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <!-- Recommendations Section -->
-            <section id="recommendations" class="section section-anchor">
-                <h2 class="section-title">🤖 AI-Powered Recommendations</h2>
-                <div class="recommendations">
-                    <div id="recommendationsDiv"></div>
+            <!-- Trending Products -->
+            <div class="glass-card">
+                <div class="section-header">
+                    <h2 class="section-title">📈 Top Trending Products</h2>
+                    <button class="btn btn-secondary btn-sm">Export CSV</button>
                 </div>
-            </section>
-
-            <!-- Charts Section (if analytics available) -->
-            <section id="charts" class="section">
-                <h2 class="section-title">📊 Analytics</h2>
-                <div class="charts-grid">
-                    <div class="chart-card">
-                        <h3 class="chart-card-title">Stock Health Overview</h3>
-                        <div class="chart-wrapper">
-                            <canvas id="stockHealthChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="chart-card">
-                        <h3 class="chart-card-title">Category Distribution</h3>
-                        <div class="chart-wrapper">
-                            <canvas id="categoryChart"></canvas>
-                        </div>
-                    </div>
+                <div class="table-container">
+                    <table id="trendsTable"></table>
                 </div>
-            </section>
+            </div>
 
-            <!-- Actions -->
-            <div class="text-center mt-xl">
-                <a href="#" class="btn btn-success btn-lg" id="downloadReport" target="_blank">
-                    📄 Download Full HTML Report
+            <!-- Low Stock Alerts -->
+            <div class="glass-card">
+                <div class="section-header">
+                    <h2 class="section-title" style="color: var(--color-coral);">⚠️ Low Stock Alerts</h2>
+                </div>
+                <div class="table-container">
+                    <table id="lowStockTable"></table>
+                </div>
+            </div>
+
+            <!-- Action Items Section -->
+            <div class="action-section">
+                <div class="section-header">
+                    <h2 class="section-title">✓ Action Items</h2>
+                    <span style="font-size: var(--text-sm); color: var(--color-text-light); font-weight: var(--weight-medium);">Track your recommended actions</span>
+                </div>
+                <div class="action-grid" id="actionItems"></div>
+            </div>
+
+            <!-- AI Recommendations -->
+            <div class="glass-card">
+                <h2 class="section-title" style="margin-bottom: var(--space-6);">🤖 AI-Powered Recommendations</h2>
+                <div id="recommendationsDiv" style="line-height: var(--leading-relaxed);"></div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="display: flex; gap: var(--space-4); justify-content: center; margin-top: var(--space-12);">
+                <a href="#" class="btn btn-primary btn-lg" id="downloadReport" target="_blank">
+                    📊 Download Full Report
                 </a>
                 <button class="btn btn-secondary btn-lg" onclick="location.reload()">
-                    🔄 Analyze Another File
+                    ↻ Analyze Another File
                 </button>
             </div>
         </div>
     </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
 
     <!-- Scripts -->
     <script type="module" src="/static/js/main.js"></script>

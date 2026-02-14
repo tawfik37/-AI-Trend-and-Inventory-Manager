@@ -128,7 +128,6 @@ class ATIMApp {
         // Hide loading, show results
         document.getElementById('loading').classList.remove('active');
         document.getElementById('results').classList.add('active');
-        document.getElementById('stickyNav').style.display = 'block';
 
         // Scroll to top
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -137,6 +136,7 @@ class ATIMApp {
         this.renderStats(data);
         this.renderTrendsTable(data.trending_products);
         this.renderLowStockTable(data.low_stock_items);
+        this.renderActionItems(data.low_stock_items, data.trending_products);
         this.renderRecommendations(data.recommendations);
         
         // Render charts if analytics available
@@ -150,24 +150,91 @@ class ATIMApp {
         }
     }
 
+    renderActionItems(lowStockItems, trendingProducts) {
+        const container = document.getElementById('actionItems');
+        const actions = [];
+
+        // Generate actions from low stock items
+        if (lowStockItems && lowStockItems.length > 0) {
+            lowStockItems.forEach(item => {
+                const isUrgent = item.current_stock < item.reorder_point * 0.5;
+                actions.push({
+                    text: `Reorder ${item.product_name}`,
+                    meta: `Current: ${item.current_stock} | Reorder: ${item.reorder_point}`,
+                    badge: isUrgent ? 'URGENT' : 'REORDER',
+                    badgeClass: isUrgent ? 'badge-urgent' : 'badge-warning',
+                    completed: false
+                });
+            });
+        }
+
+        // Generate actions from trending products
+        if (trendingProducts && trendingProducts.length > 0) {
+            const topTrending = trendingProducts.slice(0, 2);
+            topTrending.forEach(product => {
+                if (product.velocity > 10) {
+                    actions.push({
+                        text: `Review pricing for ${this.capitalize(product.keyword)}`,
+                        meta: `Velocity: +${product.velocity.toFixed(1)} | Confidence: ${product.confidence.toFixed(1)}`,
+                        badge: 'REVIEW',
+                        badgeClass: 'badge-warning',
+                        completed: false
+                    });
+                }
+            });
+        }
+
+        // Limit to top 5 actions
+        const topActions = actions.slice(0, 5);
+
+        if (topActions.length === 0) {
+            container.innerHTML = '<p style="text-align: center; color: var(--color-text-light); padding: var(--space-8);">No actions required at this time ✓</p>';
+            return;
+        }
+
+        let html = '';
+        topActions.forEach((action, idx) => {
+            html += `
+                <div class="action-card" onclick="toggleActionItem(this)" style="animation: fadeIn 0.5s ease-out ${idx * 0.1}s backwards;">
+                    <div class="action-checkbox"></div>
+                    <div class="action-content">
+                        <div class="action-text">${action.text}</div>
+                        <div class="action-meta">${action.meta}</div>
+                    </div>
+                    <span class="action-badge ${action.badgeClass}">${action.badge}</span>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+    }
+
     renderStats(data) {
         const statsGrid = document.getElementById('statsGrid');
         statsGrid.innerHTML = `
             <div class="stat-card animate-scaleIn">
-                <div class="stat-card-label">Total Products</div>
-                <div class="stat-card-value">${data.inventory_summary.total_items}</div>
+                <div class="stat-icon coral">📦</div>
+                <div class="stat-label">Total Products</div>
+                <div class="stat-value">${formatNumber(data.inventory_summary.total_items)}</div>
+                <span class="stat-trend">↗ Active inventory</span>
             </div>
-            <div class="stat-card stat-card-warning animate-scaleIn" style="animation-delay: 0.1s">
-                <div class="stat-card-label">Low Stock Alerts</div>
-                <div class="stat-card-value">${data.inventory_summary.low_stock_items}</div>
+            <div class="stat-card animate-scaleIn" style="animation-delay: 0.1s">
+                <div class="stat-icon amber">⚠️</div>
+                <div class="stat-label">Low Stock Alerts</div>
+                <div class="stat-value">${data.inventory_summary.low_stock_items}</div>
+                <span class="stat-trend">Needs attention</span>
             </div>
-            <div class="stat-card stat-card-success animate-scaleIn" style="animation-delay: 0.2s">
-                <div class="stat-card-label">Inventory Value</div>
-                <div class="stat-card-value">${formatCurrency(data.inventory_summary.total_value)}</div>
+            <div class="stat-card animate-scaleIn" style="animation-delay: 0.2s">
+                <div class="stat-icon teal">💰</div>
+                <div class="stat-label">Inventory Value</div>
+                <div class="stat-value">${formatCurrency(data.inventory_summary.total_value)}</div>
+                <span class="stat-trend">↗ Total value</span>
             </div>
             <div class="stat-card animate-scaleIn" style="animation-delay: 0.3s">
-                <div class="stat-card-label">Trending Products</div>
-                <div class="stat-card-value">${data.trending_products.length}</div>
+                <div class="stat-icon purple">📈</div>
+                <div class="stat-label">Trending Items</div>
+                <div class="stat-value">${data.trending_products.length}</div>
+                <span class="stat-trend">↗ Rising demand</span>
             </div>
         `;
     }
@@ -346,3 +413,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const app = new ATIMApp();
     app.init();
 });
+
+// Global function for action item toggle
+window.toggleActionItem = function(card) {
+    const checkbox = card.querySelector('.action-checkbox');
+    const isCompleted = card.classList.contains('completed');
+    
+    if (isCompleted) {
+        card.classList.remove('completed');
+        checkbox.classList.remove('checked');
+    } else {
+        card.classList.add('completed');
+        checkbox.classList.add('checked');
+    }
+};
